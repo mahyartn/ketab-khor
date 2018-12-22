@@ -1,0 +1,18 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE Person(id integer primary key,user_name text,password text);
+INSERT INTO Person VALUES(1,'admin','astro123');
+INSERT INTO Person VALUES(2,'mahyar','1370');
+CREATE TABLE Books(id integer primary key,name text,author text);
+CREATE TABLE Shelf(id integer primary key,owner integer,
+foreign key(owner) references Person(id));
+CREATE TABLE like(id integer primary key,person_id integer,book_id integer,timestamp datetime,foreign key(person_id) references Person(id),foreign key(book_id) references Books(id));
+CREATE TABLE friend(id integer primary key,person_id integer,person2_id integer,timestamp datetime,foreign key(person_id) references Person(id),foreign key(person2_id) references Person(id));
+CREATE TABLE own(id integer primary key,person_id integer,book_id integer,shelf_id integer,timestamp datetime,foreign key(person_id) references Person(id),foreign key(book_id) references Books(id),foreign key(shelf_id) references shelf(id));
+CREATE TABLE timestamps(time datetime primary key,person_id integer,
+own_id integer,friend_id integer,like_id integer,
+foreign key(person_id) references Person(id),
+foreign key(own_id) references own(id),
+foreign key(friend_id) references friend(id),
+foreign key(like_id) references like(id));
+COMMIT;
