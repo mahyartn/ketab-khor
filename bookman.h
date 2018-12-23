@@ -15,6 +15,7 @@ class BookFunctions
     std::vector<std::vector<std::string>> Book(std::string id);
     bool LikeBook(std::string id,std::string username);
     bool BuyBook(std::string id,std::string username);
+    std::vector<std::vector<std::string>> FavoriteBooks(std::string username);
 //bool BuyBook(std::string id,std::string username,std::string shelf_name);
 };
 

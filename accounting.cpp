@@ -5,7 +5,6 @@ AccountManager::AccountManager(MyDataBase &database)
     db=database;
 }
 
-
 bool AccountManager::AddUser(std::string user_name,std::string password)
 {
     std::string sql = "select user_name from person where user_name ='" + user_name +"'";
@@ -42,4 +41,8 @@ bool AccountManager::Authenticate(std::string user_name,std::string password)
             }
     }
     else  return 0;
+}
+void AccountManager::DeAuthenticate()
+{
+    current_session_id="";
 }

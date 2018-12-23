@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "dbmanager.h"
+#include "basic.h"
 
 
 class AccountManager
@@ -14,6 +14,7 @@ class AccountManager
     AccountManager(MyDataBase &database);
     bool AddUser(std::string user_name,std::string password);
     bool Authenticate(std::string user_name,std::string password);
+    void DeAuthenticate();
     std::string current_session_id = "";
 };
 
