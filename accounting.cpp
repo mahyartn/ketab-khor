@@ -8,10 +8,9 @@ AccountManager::AccountManager(MyDataBase &database)
 bool AccountManager::AddUser(std::string user_name,std::string password)
 {
     std::string sql = "select user_name from person where user_name ='" + user_name +"'";
-    std::vector<std::vector<std::string>> temp= db.execute(sql.c_str());
+    vvs temp= db.execute(sql.c_str());
     if (temp.size()>0)
     {
-        //std::cout<<"user exists!!\n";
         return 0;
     }
     else
@@ -28,33 +27,33 @@ bool AccountManager::AddUser(std::string user_name,std::string password)
 bool AccountManager::Authenticate(std::string user_name,std::string password)
 {
     std::string sql = "select user_name from person where user_name ='" + user_name+"'";
-    std::vector<std::vector<std::string>> temp= db.execute(sql.c_str());
+    vvs temp= db.execute(sql.c_str());
     if (temp.size()>0)
     {
         sql = "select user_name from person where user_name ='" + user_name+"' and password='"+password+"'";
-        std::vector<std::vector<std::string>> temp2=db.execute(sql.c_str());
-        if (temp2.size()>0) 
-            if (temp2[0][0]==user_name)
-            {
-                current_session_id=user_name;
-                //std::cout<<"access granted!!\n";
-                return 1;
-            }
+        vvs temp2=db.execute(sql.c_str());
+        if (temp2.size()==1) 
+        {
+            return 1;
+        }
     }
-    else  return 0;
+    else
+    {
+        return 0;
+    }  
 }
 void AccountManager::DeAuthenticate()
 {
     current_session_id="";
 }
-AInterface::AInterface()
+AcountingCLI::AcountingCLI()
 {
     db=new MyDataBase ("mydatabase.db");
     acman=new AccountManager(*db);
     system ("clear");
 }
 
-void AInterface::Register()
+void AcountingCLI::Register()
 {
     while(true)
     {
@@ -77,7 +76,7 @@ void AInterface::Register()
     }
 }
 
-void AInterface::Login()
+void AcountingCLI::Login()
 {
     while(true)
     {
@@ -98,7 +97,7 @@ void AInterface::Login()
 
 }
 
-std::string AInterface::CurrentUser()
+std::string AcountingCLI::CurrentUser()
 {
     return acman->current_session_id;
 }

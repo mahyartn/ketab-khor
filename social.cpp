@@ -7,7 +7,7 @@ Social::Social(MyDataBase &database)
 int Social::Follow(std::string user_name1,std::string user_name2)
 {
   std::string sql = "select id from person where user_name='"+ user_name2+ "'";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   if (temp.size()==0) return 2;
   sql = "select id from friend where person_name='"+ user_name1+ "'and person2_name='"+ user_name2+"'";
   temp=db.execute(sql.c_str());
@@ -23,31 +23,31 @@ void Social::SetLastTime(std::string username)
   db.execute(sql.c_str());
 }
 
-std::vector<std::vector<std::string>> Social::GetLastTime(std::string username)
+vvs Social::GetLastTime(std::string username)
 {
   std::string sql = "select last_seen from person where user_name='"+ username+ "'";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   std::cout<< temp[0][0]<<"\n";
   return temp;
 }
 
-std::vector<std::vector<std::string>> Social::GetNewLikes(std::string username,std::string time1)
+vvs Social::GetNewLikes(std::string username,std::string time1)
 {
   std::string sql = "select person_name,name,author,books.id,timestamp from likes inner join books on likes.book_id=books.id where timestamp > '"+time1+"' and person_name in(select person2_name from friend where person_name ='"+username+"')";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   return temp;
     
 }
-std::vector<std::vector<std::string>> Social::GetNewOwned(std::string username,std::string time1)
+vvs Social::GetNewOwned(std::string username,std::string time1)
 {
   std::string sql = "select person_name,books.name,author,books.id,timestamp from own inner join books on own.book_id=books.id inner join shelf on own.person_name=shelf.owner_name where shelf.name='General' and timestamp > '"+time1+"' and person_name in(select person2_name from friend where person_name ='"+username+"')";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   return temp; 
 }
-std::vector<std::vector<std::string>> Social::GetNewFriends(std::string username,std::string time1)
+vvs Social::GetNewFriends(std::string username,std::string time1)
 {
   std::string sql = "select person_name,person2_name,timestamp from friend where timestamp > '"+time1+"' and person_name in(select person2_name from friend where person_name ='"+username+"')";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   for (int i=0;i<temp.size();i++)
   return temp; 
 }
@@ -55,14 +55,14 @@ std::vector<std::vector<std::string>> Social::GetNewFriends(std::string username
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-SCInterface::SCInterface(MyDataBase &db,std::string Username)
+SocialCLI::SocialCLI(MyDataBase &db,std::string Username)
 {
     DB=db;
     CurrentUser=Username;
     community=new Social(DB);
 }
 
-void SCInterface::Follow()
+void SocialCLI::Follow()
 {
     system("clear");
     std::cout << "Please Enter Person Name to follow: ";
@@ -76,10 +76,10 @@ void SCInterface::Follow()
     std::cin.ignore();
     std::cin.get();
 }
-void SCInterface::ShowUpdates()
+void SocialCLI::ShowUpdates()
 {
   system("clear");
-  std::vector<std::vector<std::string>> temp=community->GetLastTime(CurrentUser);
+  vvs temp=community->GetLastTime(CurrentUser);
   std::string date1=temp[0][0];
   std::cout <<"Last Activities since "<<date1<<" is here: \n";
   temp=community->GetNewFriends(CurrentUser,date1);

@@ -1,20 +1,19 @@
-
 #include "basic.h"
 #include "shelfman.h"
 #include "bookman.h"
 #include "accounting.h"
 #include "social.h"
-#include "inteface.h"
 
-void func(AInterface account);
 
-std::string menu1="what do you want to do?\n"\
-"    1- Sign\n"\
+void func(AcountingCLI account);
+
+std::string StartMenu="what do you want to do?\n"\
+"    1- SignUp\n"\
 "    2- SingIn\n"\
 "    3- Exit\n\n"\
 "your choice: ";
 
-std::string menu2="what do you want to do?(type in lower case)\n"\
+std::string FunctionMenu="what do you want to do?(type in lower case)\n"\
 "    a- Show All Books\n"\
 "    b- Show a Book\n"\
 "    c- Like a Book\n"\
@@ -32,12 +31,12 @@ std::string menu2="what do you want to do?(type in lower case)\n"\
 
 int main()
 {
-    AInterface account;
-    bool t=true;
-    while (t)
+    AcountingCLI account;
+    bool RunningProgram=true;
+    while (RunningProgram)
     {
         system ("clear");
-        std::cout<<menu1;
+        std::cout<<StartMenu;
         char choice;
         std::cin >> choice;  
         switch (choice) 
@@ -49,7 +48,7 @@ int main()
             func(account);
             break;
             case '3':
-            t=false;
+            RunningProgram=false;
             break;
             default:
             break;
@@ -58,58 +57,58 @@ int main()
     }
 }
 
-void func(AInterface account)
+void func(AcountingCLI account)
     {
     account.Login();
-    BInterface Bfuncs(*account.db,account.CurrentUser());
-    SInterface Sfuncs(*account.db,account.CurrentUser());
-    SCInterface SCfuncs(*account.db,account.CurrentUser());
-    bool h=true;
-    while(h)
+    BookCLI BookFuncs(*account.db,account.CurrentUser());
+    ShelfCLI ShelfFuncs(*account.db,account.CurrentUser());
+    SocialCLI SocialFuncs(*account.db,account.CurrentUser());
+    bool LogedIn=true;
+    while(LogedIn)
     {
-        std::cout<<menu2;
+        std::cout<<FunctionMenu;
         char choice;
         std::cin >> choice;  
         switch (choice) 
         {
             case 'a':
-            Bfuncs.ShowAllBooks();
+            BookFuncs.ShowAllBooks();
             break;
             case 'b':
-            Bfuncs.ShowOneBook();
+            BookFuncs.ShowOneBook();
             break;
             case 'c':
-            Bfuncs.LikeBook();
+            BookFuncs.LikeBook();
             break;
             case 'd':
-            Bfuncs.BuyBook();
+            BookFuncs.BuyBook();
             break;
             case 'e':
-            Bfuncs.ShowFavoriteBooks();
+            BookFuncs.ShowFavoriteBooks();
             break;
             case 'f':
-            Sfuncs.ShowMyBooks();
+            ShelfFuncs.ShowMyBooks();
             break;
             case 'g':
-            Sfuncs.ShowShelves();
+            ShelfFuncs.ShowShelves();
             break;
             case 'h':
-            Sfuncs.ShowShelfBooks();
+            ShelfFuncs.ShowShelfBooks();
             break;
             case 'i':
-            Sfuncs.AddShelf();
+            ShelfFuncs.AddShelf();
             break;
             case 'j':
-            Sfuncs.AddToShelf();
+            ShelfFuncs.AddToShelf();
             break;
             case 'k':
-            SCfuncs.Follow();
+            SocialFuncs.Follow();
             break;
             case 'l':
-            SCfuncs.ShowUpdates();
+            SocialFuncs.ShowUpdates();
             break;
             case 'z':
-            h=false;
+            LogedIn=false;
             break;
             default:
             break;
@@ -117,18 +116,18 @@ void func(AInterface account)
     }
 }
     
-    // Bfuncs.ShowAllBooks();
-    // Bfuncs.ShowOneBook();
-    // Bfuncs.LikeBook();
-    // Bfuncs.BuyBook();
-    // Bfuncs.ShowFavoriteBooks();
-    // Sfuncs.ShowMyBooks();
-    // Sfuncs.ShowShelves();
-    // Sfuncs.ShowShelfBooks();
-    // Sfuncs.AddShelf();
-    // Sfuncs.AddToShelf();
-    // SCfuncs.Follow();
-    // SCfuncs.ShowUpdates();
+    // BookFuncs.ShowAllBooks();
+    // BookFuncs.ShowOneBook();
+    // BookFuncs.LikeBook();
+    // BookFuncs.BuyBook();
+    // BookFuncs.ShowFavoriteBooks();
+    // ShelfFuncs.ShowMyBooks();
+    // ShelfFuncs.ShowShelves();
+    // ShelfFuncs.ShowShelfBooks();
+    // ShelfFuncs.AddShelf();
+    // ShelfFuncs.AddToShelf();
+    // SocialFuncs.Follow();
+    // SocialFuncs.ShowUpdates();
     // std::cout<<test.acman->current_session_id<<"jj\n";
     // MyDataBase db1("mydatabase.db");
     // AccountManager ali(db1);

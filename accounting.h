@@ -18,13 +18,13 @@ class AccountManager
     std::string current_session_id = "";
 };
 
-class AInterface //accounting interface
+class AcountingCLI //accounting interface
 {
     private:
     AccountManager* acman;
     public:
-    MyDataBase* db;
-    AInterface();
+    MyDataBase *db;
+    AcountingCLI();
     void Register();
     void Login();
     void Logout();

@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+typedef std::vector<std::vector<std::string>> vvs;
+
 void ShowBook(std::vector<std::vector<std::string>> temp);
     
 class MyDataBase 
@@ -23,7 +25,7 @@ class MyDataBase
     public:
     MyDataBase (const char* db_name);
     MyDataBase ();
-    std::vector<std::vector<std::string>> execute(const char* sql_command);
+    vvs execute(const char* sql_command);
 
 };
 

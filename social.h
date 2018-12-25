@@ -12,20 +12,20 @@ class Social
     Social(MyDataBase &database);
     int Follow(std::string user_name1,std::string user_name2);
     void SetLastTime(std::string username);
-    std::vector<std::vector<std::string>> GetLastTime(std::string username);
-    std::vector<std::vector<std::string>> GetNewLikes(std::string username,std::string time1);
-    std::vector<std::vector<std::string>> GetNewFriends(std::string username,std::string time1);
-    std::vector<std::vector<std::string>> GetNewOwned(std::string username,std::string time1);  
+    vvs GetLastTime(std::string username);
+    vvs GetNewLikes(std::string username,std::string time1);
+    vvs GetNewFriends(std::string username,std::string time1);
+    vvs GetNewOwned(std::string username,std::string time1);  
 };
 
-class SCInterface
+class SocialCLI
 {
     private:
     MyDataBase DB;
     std::string CurrentUser;
     Social *community;
     public:
-    SCInterface(MyDataBase &db,std::string Username);
+    SocialCLI(MyDataBase &db,std::string Username);
     void Follow();
     void ShowUpdates();
 };

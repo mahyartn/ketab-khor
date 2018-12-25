@@ -8,7 +8,7 @@ ShelfFunctions::ShelfFunctions(MyDataBase &database)
 bool ShelfFunctions::AddShelf(std::string shelf_name,std::string user_name)
 {
   std::string sql = "select id from Shelf where owner_name='"+ user_name + "'and name='"+ shelf_name +"'";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   if(temp.size()>0) return 1;
   sql = "insert into Shelf (name,owner_name) values ('"+ shelf_name + "','"+ user_name +"')";
   db.execute(sql.c_str());
@@ -17,7 +17,7 @@ bool ShelfFunctions::AddShelf(std::string shelf_name,std::string user_name)
 int ShelfFunctions::AddToShelf(std::string shelf_name,std::string user_name,std::string book_id)
 {
   std::string sql = "select id from shelf where owner_name='"+user_name+"' and name='"+shelf_name+"'";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   if(temp.size()==0) return 3;
   sql = "select id from own where person_name='"+ user_name + "' and book_id="+ book_id ;
   temp=db.execute(sql.c_str());
@@ -30,39 +30,39 @@ int ShelfFunctions::AddToShelf(std::string shelf_name,std::string user_name,std:
   return 0;  
 }
 
-std::vector<std::vector<std::string>> ShelfFunctions::ShowShelves(std::string user_name)
+vvs ShelfFunctions::ShowShelves(std::string user_name)
 {
   std::string sql = "select * from shelf where owner_name='"+user_name+"'";
-  std::vector<std::vector<std::string>> temp=db.execute(sql.c_str());
+  vvs temp=db.execute(sql.c_str());
   return temp;     
 }
-std::vector<std::vector<std::string>> ShelfFunctions::ShowShelfBooks(std::string user_name,std::string Shelf_name)
+vvs ShelfFunctions::ShowShelfBooks(std::string user_name,std::string Shelf_name)
 {
   std::string sql = "select * from books where id in (select book_id from own where person_name ='"+user_name+"'and shelf_id=(select id from shelf where owner_name='"+user_name+"'and name='"+Shelf_name+"'))";
-  std::vector<std::vector<std::string>> temp= db.execute(sql.c_str());
+  vvs temp= db.execute(sql.c_str());
   return temp;    
 }
-std::vector<std::vector<std::string>> ShelfFunctions::ShowMyBooks(std::string user_name)
+vvs ShelfFunctions::ShowMyBooks(std::string user_name)
 {
   std::string sql = "select * from books where id in (select book_id from own where person_name ='"+user_name+"'and shelf_id=(select id from shelf where owner_name='"+user_name+"'and name='General'))";
-  std::vector<std::vector<std::string>> temp= db.execute(sql.c_str());
+  vvs temp= db.execute(sql.c_str());
   return temp;   
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-SInterface::SInterface(MyDataBase &db,std::string Username)
+ShelfCLI::ShelfCLI(MyDataBase &db,std::string Username)
 {
   DB=db;
   CurrentUser=Username;
   shelf=new ShelfFunctions(DB);
 }
 
-void SInterface::ShowMyBooks()
+void ShelfCLI::ShowMyBooks()
 {
     system("clear");
-    std::vector<std::vector<std::string>> temp=shelf->ShowMyBooks(CurrentUser);
+    vvs temp=shelf->ShowMyBooks(CurrentUser);
     if (temp.size()>0) ShowBook(temp);
     else std::cout <<"No Books!!\n";
     std::cout<<"(Press ENTER To Continue....)\n";
@@ -71,13 +71,13 @@ void SInterface::ShowMyBooks()
 
 }
 
-void SInterface::ShowShelfBooks()
+void ShelfCLI::ShowShelfBooks()
 {
     system("clear");
     std::cout << "Please Enter the Shelf name you Like to see: ";
     std::string shelf_name;
     std::cin >> shelf_name;
-    std::vector<std::vector<std::string>> temp=shelf->ShowShelfBooks(CurrentUser,shelf_name);
+    vvs temp=shelf->ShowShelfBooks(CurrentUser,shelf_name);
     if (temp.size()>0) ShowBook(temp);
     else std::cout <<"No Books!!\n";
     std::cout<<"(Press ENTER To Continue....)\n";
@@ -86,10 +86,10 @@ void SInterface::ShowShelfBooks()
 
 }
 
-void SInterface::ShowShelves()
+void ShelfCLI::ShowShelves()
 {
     system("clear");
-    std::vector<std::vector<std::string>> temp=shelf->ShowShelves(CurrentUser);
+    vvs temp=shelf->ShowShelves(CurrentUser);
     if (temp.size()>0) 
     {
       std::cout<<"Shelf Name: \n";
@@ -104,7 +104,7 @@ void SInterface::ShowShelves()
     std::cin.get();
 }
 
-void SInterface::AddShelf()
+void ShelfCLI::AddShelf()
 {
     system("clear");
     std::cout << "Please Enter New Shelf name: ";
@@ -118,7 +118,7 @@ void SInterface::AddShelf()
     std::cin.get();    
 }
 
-void SInterface::AddToShelf()
+void ShelfCLI::AddToShelf()
 {
     system("clear");
     std::cout << "Please Enter the Shelf you like to use: ";
