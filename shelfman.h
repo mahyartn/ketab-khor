@@ -18,5 +18,20 @@ class ShelfFunctions
     std::vector<std::vector<std::string>> ShowMyBooks(std::string user_name);
 };
 
+class SInterface
+{
+    private:
+    MyDataBase DB;
+    std::string CurrentUser;
+    ShelfFunctions *shelf;
+    public:
+    SInterface(MyDataBase &db,std::string Username);
+    void ShowMyBooks();
+    void ShowShelfBooks();
+    void ShowShelves();
+    void AddShelf();
+    void AddToShelf();
+};
+
 
 #endif

@@ -7,7 +7,11 @@
 #include <vector>
 #include <time.h>
 #include <sqlite3.h> 
+#include <unistd.h>
+#include <stdio.h>
 
+void ShowBook(std::vector<std::vector<std::string>> temp);
+    
 class MyDataBase 
 {
     private:

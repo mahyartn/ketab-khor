@@ -1,6 +1,16 @@
 #include "basic.h"
 
 
+void ShowBook(std::vector<std::vector<std::string>> temp)
+{
+  std::string BookFields[5]={"ID: ","Book Name: ","Author: ","Publisher: ","Year: "};  
+  for (int i=0;i<temp.size();i++)
+        {
+            for (int j=0;j<5;j++) std::cout <<BookFields[j]<<temp[i][j]<<"\n";
+            std::cout <<"\n";
+        }
+}
+    
 MyDataBase::MyDataBase()
 {
 }
@@ -41,11 +51,11 @@ std::vector<std::vector<std::string>> MyDataBase::execute(const char* sql_comman
 {
     std::vector<std::vector<std::string>> str_vec;
     auto rc = sqlite3_exec(db, sql_command, callback, (void*) &str_vec, &zErrMsg);
-    if( rc != SQLITE_OK ) 
-    {
-      fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      sqlite3_free(zErrMsg);
-    } 
-    else ;// fprintf(stdout, "Operation done successfully\n");
+    // if( rc != SQLITE_OK ) 
+    // {
+    //   fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    //   sqlite3_free(zErrMsg);
+    // } 
+    // else ;// fprintf(stdout, "Operation done successfully\n");
     return str_vec;
 }
