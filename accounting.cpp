@@ -90,11 +90,10 @@ void AInterface::Login()
         if (acman->Authenticate(username,password))
         {
             system ("clear");
-            std::cout<<"Access Granted...\n";
+            std::cout<<"...Access Granted...\n";
             break;
         }
-        system ("clear");
-        std::cout<<"Username or Password is incorrect!!!\n";
+        std::cout<<"\n!!!Username or Password is incorrect!!!\n";
     }
 
 }
